@@ -59,4 +59,4 @@ Deploying the app on cloud platforms (e.g., AWS, Heroku).
 Adding real-time news scraping and analysis features.
 
 # Contributors
-Your Name – Chetan Shakya
+Name – Chetan Shakya
