@@ -14,7 +14,7 @@ def clean_text(text):
     return text
 
 # Streamlit UI
-st.set_page_config(page_title="Fake News Detection", page_icon="📰", layout="centered")
+st.set_page_config(page_title="Fake News Detection", page_icon="📰", layout="centered",)
 
 st.title("📰 Fake News Detection App")
 st.write("### Enter a news article below to check if it's **real** or **fake.**")
@@ -28,14 +28,25 @@ if st.button("🔍 Predict"):
     else:
         # Preprocess input text
         cleaned_input = clean_text(user_input)
+        #st.write(f"Cleaned input: {cleaned_input}")  # Debugging the cleaned input
         input_tfidf = vectorizer.transform([cleaned_input])
 
-        # Predict using the model
-        prediction = model.predict(input_tfidf)[0]
+        # Get prediction probability
+        prob = model.predict_proba(input_tfidf)[0][1]  # Probability of being real (class 1)
+        st.write(f"Prediction probability: {prob}")  # Debugging the probability
+
+        # Define threshold for fake news prediction (adjust as needed)
+        threshold = 0.7
+
+        # Predict using probability threshold
+        if prob >= threshold:
+            prediction = "🟢 Real News"
+        else:
+            prediction = "🔴 Fake News"
 
         # Display result
         st.subheader("🔎 Prediction Result")
-        st.success(f"**Prediction:** {'🟢 Real' if prediction == 1 else '🔴 Fake'}")
+        st.success(f"**Prediction:** {prediction}")
 
 # Footer
 st.markdown("---")
